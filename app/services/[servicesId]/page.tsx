@@ -13,68 +13,59 @@ type Params = {
   params: { servicesId: string };
 };
 
-// ✅ Pre-render all service pages for static export
-export const generateStaticParams = (): Array<{ servicesId: string }> => {
-  const ids = Object.keys(servicesData);
-  console.log("Static paths generated for:", ids);
-  return ids.map((servicesId) => ({ servicesId }));
+// ✅ Static paths
+export const generateStaticParams = () => {
+  return Object.keys(servicesData).map((servicesId) => ({
+    servicesId,
+  }));
 };
 
-// ✅ Static metadata for each service page
+// ✅ Metadata (SEO Optimized)
 export const generateMetadata = async ({ params }: Params): Promise<Metadata> => {
   const { servicesId } = await params;
-  const service = servicesData[servicesId as keyof typeof servicesData];
+
+  const service =
+    servicesData[servicesId as keyof typeof servicesData];
 
   if (!service) {
     return {
-      title: "Service Not Found | Srinu Invisible Grills",
-      description: "Requested service not found on Srinu Invisible grills.",
+      title: "Service Not Found | Servani Safety Nets",
+      description: "Requested service not found.",
       robots: { index: false, follow: false },
     };
   }
 
-  const title = service.title || "Service Details | Srinu Invisible Grills";
+  const title = `${service.title} in Bangalore | Servani Safety Nets`;
+
   const description =
-    service.description?.trim() ||
-    `Discover our premium ${service.title} services designed for excellent results and long-lasting protection.`;
+    service.description ||
+    `Get ${service.title} installation in Bangalore with Servani Safety Nets. Safe, strong, and affordable solutions for homes and apartments.`;
 
   const image = service.image || "/default-image.jpg";
-  const url = `https://srinuinvisiblegrills.com/service/${servicesId}`;
+  const url = `https://servanisafetynets.com/service/${servicesId}`;
 
   return {
     title,
     description,
+
     keywords: [
-      "pigeon safety nets",
-      "balcony safety nets",
-      "bird protection nets",
-      "anti bird nets",
-      "safety nets installation",
-      "balcony pigeon nets",
-      "HDPE safety nets",
-      "invisible grills",
-      "pets safety nets",
-      "children protection nets",
-      "building safety nets",
-      "open area nets",
-      "monkey protection nets",
-      "staircase safety nets",
-      "glass building nets",
-      "construction safety nets",
-      "industrial safety nets",
-      "cricket practice nets",
-      "sports nets",
-      "coconut tree safety nets",
-      "mesh nets",
-      "nylon safety nets",
-      "residential safety nets",
+      `${service.title} in Bangalore`,
+      `${servicesId.replaceAll("-", " ")}`,
+      "safety nets Bangalore",
+      "balcony nets Bangalore",
+      "pigeon nets Bangalore",
+      "child safety nets",
+      "pet safety nets",
+      "Servani Safety Nets",
     ],
+
     alternates: { canonical: url },
+
     openGraph: {
-      title: `${service.title} | Srinu Invisible Grills`,
+      title,
       description,
       url,
-      siteName: "Srinu Invisible Grills",
+      siteName: "Servani Safety Nets",
       images: [
         {
           url: image,
@@ -86,57 +77,74 @@ export const generateMetadata = async ({ params }: Params): Promise<Metadata> =>
       type: "article",
       locale: "en_IN",
     },
+
     twitter: {
       card: "summary_large_image",
-      title: `${service.title} | Srinu invisible grills`,
+      title,
       description,
       images: [image],
-      creator: "@SrinuInvisibleGrills",
     },
+
     robots: {
       index: true,
       follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-        "max-video-preview": -1,
-      },
     },
-    metadataBase: new URL("https://srinuinvisiblegrills.com"),
-    authors: [{ name: "srinu invisible grills" }],
-    publisher: "Srinu Invisible Grills",
-    category: "Home Safety Solutions",
+
+    metadataBase: new URL("https://servanisafetynets.com"),
   };
 };
 
 // ✅ Page Component
-const ServiceDetailsPage = async ({ params }: Params) => {
+const ServiceDetailsPage = async({ params }: Params) => {
   const { servicesId } = await params;
-  const service = servicesData[servicesId as keyof typeof servicesData];
+
+  const service =
+    servicesData[servicesId as keyof typeof servicesData];
+
   const content = servicesContent[servicesId];
 
-  if (!service) return <div>Service not found</div>;
+  // ❌ If service not found
+  if (!service) {
+    return <div>Service not found</div>;
+  }
+
+  // ✅ Fallback content (VERY IMPORTANT for SEO)
+  const fallbackDescription = `We provide ${service.title} in Bangalore with professional installation. Our solutions are safe, durable, and suitable for homes, apartments, and commercial spaces. Contact Servani Safety Nets for the best service.`;
+
+  const finalDescription =
+    content?.detailedDescription || fallbackDescription;
+
+  const finalFaqs =
+    content?.faqs && content.faqs.length > 0
+      ? content.faqs
+      : [
+          {
+            question: `What is ${service.title}?`,
+            answer: `${service.title} is a safety solution provided by Servani Safety Nets in Bangalore.`,
+          },
+          {
+            question: `Do you provide installation in Bangalore?`,
+            answer: `Yes, we provide complete installation across Bangalore.`,
+          },
+        ];
 
   return (
     <>
       <Navbar />
+
       <HeroSection {...service} />
 
-      {content?.detailedDescription && (
-        <DetailedDescription
-          description={content.detailedDescription}
-          title={service.title}
-        />
-      )}
+      <DetailedDescription
+        description={finalDescription}
+        title={service.title}
+      />
 
-      {content?.faqs && content.faqs.length > 0 && (
-        <FAQSection faqs={content.faqs} />
-      )}
+      <FAQSection faqs={finalFaqs} />
 
       <InfoSection {...service} />
+
       <StickyContactIcons />
+
       <Footer />
     </>
   );

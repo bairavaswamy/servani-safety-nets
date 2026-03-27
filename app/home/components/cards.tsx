@@ -2,21 +2,22 @@
 
 import { BookOpen, Phone } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface SafetyCardProps {
   image: string;
   title: string;
   description: string;
-  readMoreLink?: string;
-  callNumber?: string;
+  readMoreLink: string;
+  callNumber: string;
 }
 
 const SafetyCard = ({
   image,
   title,
   description,
-  readMoreLink = "",
-  callNumber = "",
+  readMoreLink,
+  callNumber,
 }: SafetyCardProps) => {
   return (
     <div
@@ -27,7 +28,7 @@ const SafetyCard = ({
       hover:shadow-[0_20px_60px_rgba(231,137,70,0.25)]"
     >
       {/* Glow overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#E78946]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500" />
+      {/* <div className="absolute inset-0 bg-gradient-to-br from-[#E78946]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500" /> */}
 
       {/* Image */}
       <div className="relative h-56 overflow-hidden">
@@ -61,14 +62,13 @@ const SafetyCard = ({
         <div className="mt-5 flex items-center justify-between gap-3">
           
           {/* Read More */}
-          <a
+          <Link
             href={readMoreLink}
-            className="flex items-center gap-2 text-sm font-medium text-[#E78946] 
-            hover:text-orange-300 transition"
+            className="flex items-center gap-2 text-sm font-medium text-[#E78946] hover:text-orange-300 transition"
           >
             <BookOpen className="size-4" />
             Learn More
-          </a>
+          </Link>
 
           {/* Call Now (Primary CTA) */}
           <a

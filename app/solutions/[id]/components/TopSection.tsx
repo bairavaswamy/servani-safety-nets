@@ -10,19 +10,32 @@ type TopSectionProps = {
 
 const TopSection = ({ title, description, image }: TopSectionProps) => {
   return (
-    <section className="bg-[#354664] text-[#E78946] py-20 border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section className="relative py-24 px-6 overflow-hidden">
+      
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-950 to-black" />
 
-        {/* Title Centered on Top */}
-        <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-12 bg-[#E78946] bg-clip-text text-transparent drop-shadow-lg">
+      {/* Glow Effects */}
+      <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#E78946]/10 blur-[120px]" />
+      <div className="absolute bottom-[-150px] right-[-100px] w-[400px] h-[400px] bg-orange-500/10 blur-[120px]" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+
+        {/* Title */}
+        <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-12 tracking-tight 
+        bg-gradient-to-r from-[#E78946] via-orange-300 to-[#E78946] 
+        bg-clip-text text-transparent">
           {title}
         </h1>
 
-        {/* Image + Content Side by Side on Desktop */}
+        {/* Divider */}
+        <div className="w-20 h-[2px] mx-auto mb-12 bg-gradient-to-r from-transparent via-[#E78946] to-transparent" />
+
+        {/* Grid */}
         <div className="grid lg:grid-cols-2 gap-12 items-center">
 
-          {/* Image Section */}
-          <div className="relative h-[300px] sm:h-[400px] lg:h-[450px] w-full rounded-2xl overflow-hidden border border-amber-200/20 shadow-lg order-2 lg:order-1">
+          {/* Image */}
+          <div className="relative h-[300px] sm:h-[400px] lg:h-[450px] w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl order-2 lg:order-1">
             <Image
               src={image}
               alt={title}
@@ -30,13 +43,26 @@ const TopSection = ({ title, description, image }: TopSectionProps) => {
               className="object-cover transition-transform duration-700 hover:scale-105"
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
-              fetchPriority="high"
             />
           </div>
 
-          {/* Description Section */}
-          <div className="order-3 lg:order-2 text-amber-50/90 text-base md:text-lg leading-relaxed text-justify backdrop-blur-sm bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10">
-            {description}
+          {/* Content */}
+          <div className="order-3 lg:order-2 text-gray-300 text-base md:text-lg leading-relaxed 
+          backdrop-blur-md bg-white/5 p-8 rounded-2xl shadow-xl border border-white/10">
+            
+            <p className="mb-4">
+              At{" "}
+              <span className="text-[#E78946] font-semibold">
+                Servani Safety Nets
+              </span>
+              , {description}
+            </p>
+
+            {/* Highlight line */}
+            <p className="text-sm text-gray-500 mt-6">
+              Premium Quality • Expert Installation • Trusted Protection
+            </p>
+
           </div>
         </div>
       </div>

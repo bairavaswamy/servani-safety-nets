@@ -6,134 +6,126 @@ export type Service = {
 };
 
 export type ServiceKey =
-  | "balcony"
-  | "invisible"
-  | "spikes"
-  | "residential"
-  | "sports"
-  | "construction"
-  | "children"
-  | "staircase"
-  | "balconySafetyNets"
-  | "invisibleGrill"
-  |  "birdSpikes"
-  | "residentialAndPigeonSafetyNets"
-  | "sportsPracticeNets"
-  | "constructionSafetyNets"
-  | "childrenSafetyNets"
-  | "staircaseSafetyNets"
+  | "balcony-safety-nets-in-bangalore"
+  | "cat-safety-nets-in-bangalore"
+  | "invisible-safety-nets-in-bangalore"
+  |"invisible-grills-in-bangalore"
+  | "bird-spikes-in-bangalore"
+  | "residential-safety-nets-in-bangalore"
+  | "sports-safety-nets-in-bangalore"
+  | "construction-safety-nets-in-bangalore"
+  | "children-safety-nets-in-bangalore"
+  | "staircase-safety-nets-in-bangalore"
+  | "duct-area-safety-nets-in-bangalore"
+  | "open-area-safety-nets-in-bangalore"
+  | "monkey-safety-nets-in-bangalore"
+  | "industrial-safety-nets-in-bangalore"
+  | "pigeon-safety-nets-in-bangalore"
 ;
 
 export const servicesData: Record<ServiceKey, Service> = {
-  balcony: {
-    title: "Balcony Safety Nets",
+  "balcony-safety-nets-in-bangalore": {
+    title: "Balcony Safety Nets in Bangalore",
     description:
-      "Secure your balcony with our high-strength safety nets designed to prevent accidental falls while keeping your view and airflow untouched. Ideal for apartments and high-rise buildings.",
+      "Looking for balcony safety nets in Bangalore? We provide strong and long-lasting nets to protect children, pets, and elders from falls. Our nets keep your balcony safe without blocking air or view.",
     image: "/images/balcony-background.webp",
   },
 
-  invisible: {
-    title: "Invisible Grills",
+  "cat-safety-nets-in-bangalore": {
+    title: "Cat Safety Nets in Bangalore",
     description:
-      "Premium invisible grills made using SS-316 cables for maximum safety with a clean, modern look. Perfect for balconies, windows, and high-rise protection without blocking your view.",
+      "Protect your cats with our specially designed cat safety nets in Bangalore. These nets prevent pets from falling or escaping while allowing fresh air and visibility.",
+    image: "/images/cat-safety.webp",
+  },
+
+  "invisible-safety-nets-in-bangalore": {
+    title: "Invisible Safety Nets in Bangalore",
+    description:
+      "Get premium invisible safety nets in Bangalore for modern homes. These nets provide high protection while maintaining a clean and stylish look for balconies and windows.",
+    image: "/images/invisible-net.webp",
+  },
+
+  "invisible-grills-in-bangalore": {
+    title: "Invisible Grills in Bangalore",
+    description:
+      "We install high-quality invisible grills in Bangalore using SS-316 steel cables. Ideal for balconies and windows, offering strong protection without blocking your outside view.",
     image: "/images/invisible-grill.webp",
   },
 
-  spikes: {
-    title: "Bird Spikes",
+  "bird-spikes-in-bangalore": {
+    title: "Bird Spikes in Bangalore",
     description:
-      "Sturdy and weather-proof bird spikes that stop pigeons from sitting on ledges, AC units, pipelines, and balcony rails—ensuring a cleaner, healthier living environment.",
+      "Stop pigeons and birds with durable bird spikes in Bangalore. Suitable for balconies, ledges, AC units, and pipes to keep your home clean and bird-free.",
     image: "/images/images-slider-55.webp",
   },
 
-  residential: {
-    title: "Residential Safety Nets",
+  "residential-safety-nets-in-bangalore": {
+    title: "Residential Safety Nets in Bangalore",
     description:
-      "Reliable safety nets designed for homes to safeguard open spaces like balconies, windows, ducts, and stairs. Built to withstand outdoor conditions while enhancing safety.",
+      "Complete home protection with residential safety nets in Bangalore. We cover balconies, windows, ducts, and open areas to ensure safety for families and pets.",
     image: "/images/residential-net.webp",
   },
 
-  sports: {
-    title: "Sports Safety Nets",
+  "sports-safety-nets-in-bangalore": {
+    title: "Sports Safety Nets in Bangalore",
     description:
-      "Durable sports practice nets for cricket, football, and other sporting activities. Designed to contain balls, protect surroundings, and create safe training areas.",
+      "High-quality sports safety nets in Bangalore for cricket, football, and play areas. These nets prevent balls from going outside and protect nearby property.",
     image: "/images/sports-safety.webp",
   },
 
-  construction: {
-    title: "Construction Safety Nets",
+  "construction-safety-nets-in-bangalore": {
+    title: "Construction Safety Nets in Bangalore",
     description:
-      "Heavy-duty construction safety nets used for preventing debris fall and ensuring worker safety at building sites. Strong, long-lasting, and industry-grade.",
+      "Heavy-duty construction safety nets in Bangalore to protect workers and prevent falling debris. Ideal for buildings, sites, and industrial projects.",
     image: "/images/construction-net.webp",
   },
 
-  children: {
-    title: "Children Safety Nets",
+  "children-safety-nets-in-bangalore": {
+    title: "Children Safety Nets in Bangalore",
     description:
-      "High-quality child safety nets for balconies, windows, and open areas. Prevents kids and pets from slipping through gaps while maintaining a neat appearance.",
+      "Ensure child safety with strong children safety nets in Bangalore. Designed for balconies, staircases, and open spaces to prevent accidents.",
     image: "/images/children-safety.webp",
   },
 
-  staircase: {
-    title: "Staircase Safety Nets",
+  "staircase-safety-nets-in-bangalore": {
+    title: "Staircase Safety Nets in Bangalore",
     description:
-      "Flexible and secure staircase nets that prevent accidental slips and falls. Suitable for homes, apartments, hostels, and commercial areas.",
+      "Install staircase safety nets in Bangalore to avoid accidental falls. Perfect for homes, apartments, and schools with kids or elderly people.",
     image: "/images/staircase-safety.webp",
   },
 
-  balconySafetyNets: {
-    title: "Balcony Safety Nets",
+  "duct-area-safety-nets-in-bangalore": {
+    title: "Duct Area Safety Nets in Bangalore",
     description:
-      "Specially crafted balcony nets offering long-term protection from falls and pigeon disturbances, providing a safe environment for kids, pets, and families.",
-    image: "/images/balcony-background.webp",
+      "Close open duct areas safely with duct area safety nets in Bangalore. Prevent birds, waste, and accidents in unused vertical spaces.",
+    image: "/images/duct-area.webp",
   },
 
-  invisibleGrill: {
-    title: "Invisible Grills",
+  "open-area-safety-nets-in-bangalore": {
+    title: "Open Area Safety Nets in Bangalore",
     description:
-      "Stylish SS-316 invisible grill solutions that provide invisible protection for windows and balconies while keeping your surroundings visually open and modern.",
-    image: "/images/invisible-grill.webp",
+      "Secure terraces and open spaces with open area safety nets in Bangalore. Ideal for preventing falls and protecting large open areas.",
+    image: "/images/open-area.webp",
   },
 
-  birdSpikes: {
-    title: "Bird Spikes",
+  "monkey-safety-nets-in-bangalore": {
+    title: "Monkey Safety Nets in Bangalore",
     description:
-      "Effective anti-bird solution designed to stop pigeons from nesting or sitting on open surfaces. Rust-proof and suitable for all weather conditions.",
-    image: "/images/images-slider-55.webp",
+      "Keep monkeys away from your home with strong monkey safety nets in Bangalore. Best for balconies, windows, and terraces in affected areas.",
+    image: "/images/monkey-net.webp",
   },
 
-  residentialAndPigeonSafetyNets: {
-    title: "Residential & Pigeon Safety Nets",
+  "industrial-safety-nets-in-bangalore": {
+    title: "Industrial Safety Nets in Bangalore",
     description:
-      "Protect your home from pigeon intrusion and maintain hygiene with our strong, UV-resistant pigeon control nets suitable for all residential spaces.",
-    image: "/images/residential-net.webp",
+      "Reliable industrial safety nets in Bangalore for factories and warehouses. Designed for heavy-duty usage and maximum safety.",
+    image: "/images/industrial-net.webp",
   },
 
-  sportsPracticeNets: {
-    title: "Sports Practice Nets",
+  "pigeon-safety-nets-in-bangalore": {
+    title: "Pigeon Safety Nets in Bangalore",
     description:
-      "Professional quality nets built for cricket nets, football arenas, and training grounds to ensure safe and uninterrupted sports practice.",
-    image: "/images/sports-safety.webp",
-  },
-
-  constructionSafetyNets: {
-    title: "Construction Safety Nets",
-    description:
-      "Industrial-grade nets used to safeguard workers from falls and protect pedestrians from falling objects in construction zones.",
-    image: "/images/construction-net.webp",
-  },
-
-  childrenSafetyNets: {
-    title: "Children Safety Nets",
-    description:
-      "Dependable children safety nets ensuring maximum protection in balconies and staircases, preventing accidental slips and offering peace of mind.",
-    image: "/images/children-safety.webp",
-  },
-
-  staircaseSafetyNets: {
-    title: "Staircase Safety Nets",
-    description:
-      "Customized staircase safety net solutions designed to protect kids, elderly people, and pets from accidental falls in stairwell areas.",
-    image: "/images/staircase.jpg",
+      "Protect your home from pigeons with pigeon safety nets in Bangalore. Keeps your balcony clean, hygienic, and free from bird disturbance.",
+    image: "/images/pigeon-net.webp",
   },
 };

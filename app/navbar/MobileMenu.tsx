@@ -15,6 +15,16 @@ import {
 } from "lucide-react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
+import { servicesData as originalServices } from "../data/serviceData";
+import { areas } from "../data/areasData";
+
+// Add all areas to each service dynamically
+const servicesData = Object.fromEntries(
+  Object.entries(originalServices).map(([key, service]) => [
+    key,
+    { ...service, areas }, // merge areas into each service
+  ])
+);
 
 const links = [
   { href: "/", label: "Home", icon: <Home size={18} /> },
@@ -30,12 +40,10 @@ const MobileMenu = ({ isOpen, setIsOpen }: any) => {
 
   const isActive = (path: string) => pathname === path;
 
-  // ✅ Auto close on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // ✅ Swipe to close
   const handleTouchStart = (e: any) => {
     setTouchStart(e.touches[0].clientX);
   };
@@ -99,7 +107,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: any) => {
           </button>
         </div>
 
-        {/* Nav */}
+        {/* Nav Links */}
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2 pb-24">
           {links.map((link, i) => (
             <Link
@@ -137,30 +145,33 @@ const MobileMenu = ({ isOpen, setIsOpen }: any) => {
           {/* Services Dropdown */}
           <div
             className={`overflow-hidden transition-all duration-300 ${
-              isDropdownOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+              isDropdownOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
             }`}
           >
             <div className="ml-4 mt-3 space-y-2 border-l border-white/10 pl-3">
-              <Link
-                href="/solutions/pigeon-safety-nets"
-                className="block px-3 py-2 text-sm rounded-md text-gray-400 hover:text-[#E78946] hover:bg-white/5 transition"
-              >
-                Pigeon Safety Nets
-              </Link>
+              {Object.entries(servicesData).map(([key, service]) => (
+                <div key={key} className="space-y-1">
+                  <Link
+                    href={`/service/${key}`}
+                    className="block px-3 py-2 text-sm rounded-md text-gray-300 hover:text-[#E78946] hover:bg-white/5 transition font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {service.title}
+                  </Link>
 
-              <Link
-                href="/solutions/anti-bird-nets"
-                className="block px-3 py-2 text-sm rounded-md text-gray-400 hover:text-[#E78946] hover:bg-white/5 transition"
-              >
-                Anti Bird Nets
-              </Link>
-
-              <Link
-                href="/solutions/building-safety-nets"
-                className="block px-3 py-2 text-sm rounded-md text-gray-400 hover:text-[#E78946] hover:bg-white/5 transition"
-              >
-                Building Safety Nets
-              </Link>
+                  {/* Available Areas */}
+                  <div className="ml-3 space-x-2 text-xs text-gray-400 flex flex-wrap gap-1">
+                    {service.areas.map((area) => (
+                      <span
+                        key={area}
+                        className="px-2 py-1 bg-white/10 rounded-full hover:bg-white/20 transition"
+                      >
+                        {area}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
