@@ -6,6 +6,10 @@ type CardData = {
   description: string;
   readMoreLink: string;
   callNumber: string;
+  rating?: number;
+  reviews?: number;
+  badge?: string;
+  tags?: string[];
 };
 
 const SafetySolutions = ({ cards }: { cards: CardData[] }) => {

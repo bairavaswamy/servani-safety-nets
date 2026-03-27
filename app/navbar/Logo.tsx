@@ -25,7 +25,7 @@ const Logo = () => {
         {/* Image */}
         <div className="relative w-full h-full rounded-full overflow-hidden">
           <Image
-            src="/servani-logo.jpg"
+            src="/servani-logo.webp"
             alt="Servani Safety Nets Logo"
             fill
             className="object-contain transition duration-500 group-hover:scale-105"

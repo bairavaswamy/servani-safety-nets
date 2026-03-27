@@ -5,92 +5,113 @@ import Link from "next/link";
 import Navbar from "@/app/navbar/Navbar";
 import Footer from "@/app/footer/Footer";
 import StickyContactIcons from "@/app/stickyicons/stickyIcons";
-
-const blogs = [
-  {
-    slug: "importance-of-balcony-safety-nets",
-    title: "Why Balcony Safety Nets Are Essential for Every Home",
-    date: "October 25, 2025",
-    image: "/images/balcony-safety-net.webp",
-    description:
-      "Balconies offer great views, but they can also be dangerous without proper protection. Discover how safety nets help prevent accidents while keeping your space open and elegant.",
-  },
-  {
-    slug: "invisible-grills-modern-home-trend",
-    title: "Invisible Grills — The Modern Home Safety Trend",
-    date: "September 12, 2025",
-    image: "/images/invisible-grill.webp",
-    description:
-      "Invisible grills combine safety with beauty. Learn why homeowners in high-rise apartments are switching to invisible grills for sleek design and unmatched safety.",
-  },
-  {
-    slug: "pigeon-nets-for-clean-balconies",
-    title: "Keep Your Balcony Clean with Pigeon Nets",
-    date: "August 30, 2025",
-    image: "/images/pigeon-installation.webp",
-    description:
-      "Pigeons can create an unhygienic mess around balconies and windows. Here’s how pigeon safety nets can help maintain cleanliness and protect your space.",
-  },
-  {
-    slug: "construction-safety-nets-benefits",
-    title: "Benefits of Construction Safety Nets for Worksites",
-    date: "July 18, 2025",
-    image: "/images/construction-net.webp",
-    description:
-      "Worker safety is a top priority. Construction safety nets protect workers and pedestrians from falling debris, improving safety on construction sites.",
-  },
-  {
-    slug: "child-pet-safety-nets-for-home",
-    title: "Child & Pet Safety Nets — Must-Have for Urban Families",
-    date: "June 9, 2025",
-    image: "/images/pets-safety.webp",
-    description:
-      "If you live in an apartment, child and pet safety nets offer peace of mind while keeping your little ones safe from balcony falls or open spaces.",
-  },
-];
+import { blogsData } from "@/app/data/blogsData";
 
 const BlogsPage = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-br from-emerald-950 via-teal-900 to-emerald-800 text-amber-50 py-16 px-6 md:px-16">
-        <h1 className="pt-10 text-4xl md:text-5xl font-extrabold text-center mb-12 bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-200 bg-clip-text text-transparent">
-          Our Latest Blogs
-        </h1>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          {blogs.map((blog, index) => (
+      <div className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black text-white">
+
+        {/* 🔥 HERO */}
+        <section className="relative py-20 px-6 text-center overflow-hidden">
+          
+          <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[400px] bg-[#E78946]/20 blur-[120px]" />
+
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-6
+            bg-gradient-to-r from-[#E78946] via-orange-300 to-[#E78946]
+            bg-clip-text text-transparent">
+            Safety Nets Blog
+          </h1>
+
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Expert tips, guides, and insights on balcony safety nets, pigeon protection,
+            invisible grills, and modern home safety solutions in Bangalore.
+          </p>
+
+          {/* Trust */}
+          <p className="mt-4 text-sm text-gray-500">
+            Updated regularly • Trusted by 1000+ customers
+          </p>
+        </section>
+
+        {/* 📚 BLOG GRID */}
+        <div className="max-w-7xl mx-auto px-6 pb-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+
+          {blogsData.map((blog, index) => (
             <div
               key={index}
-              className="bg-white/10 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden border border-amber-200/30 hover:scale-[1.02] transition-transform duration-300"
+              className="group relative rounded-2xl overflow-hidden 
+              bg-white/5 border border-white/10 backdrop-blur-xl
+              shadow-lg transition duration-500 hover:-translate-y-2
+              hover:shadow-[0_20px_60px_rgba(231,137,70,0.25)]"
             >
-              <div className="relative w-full h-56">
+              {/* IMAGE */}
+              <div className="relative h-56 overflow-hidden">
                 <Image
                   src={blog.image}
                   alt={blog.title}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-110 transition duration-700"
                 />
+
+                {/* Badge */}
+                <span className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold 
+                  bg-[#E78946] text-white rounded-full shadow">
+                  {blog.badge}
+                </span>
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               </div>
 
-              <div className="p-5 flex flex-col justify-between h-[250px]">
+              {/* CONTENT */}
+              <div className="p-5 flex flex-col justify-between h-[260px]">
+
                 <div>
-                  <h2 className="text-xl font-semibold mb-2 text-amber-200">
+                  <h2 className="text-lg font-bold mb-2 group-hover:text-[#E78946] transition">
                     {blog.title}
                   </h2>
-                  <p className="text-sm text-amber-100/80 mb-3">{blog.date}</p>
-                  <p className="text-amber-50/90 line-clamp-3">{blog.description}</p>
+
+                  <p className="text-xs text-gray-400 mb-2">{blog.displayDate}</p>
+
+                  <p className="text-sm text-gray-300 line-clamp-3">
+                    {blog.description}
+                  </p>
                 </div>
 
+                {/* CTA */}
                 <Link
                   href={`/blogs/${blog.slug}`}
-                  className="mt-4 inline-block text-emerald-950 font-semibold bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-300 rounded-lg px-4 py-2 text-center hover:opacity-90 transition"
+                  className="mt-4 inline-flex items-center justify-center 
+                  px-4 py-2 rounded-full text-sm font-semibold
+                  bg-gradient-to-r from-[#E78946] to-orange-500
+                  hover:scale-105 transition"
                 >
-                  Read More
+                  Read Article →
                 </Link>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* 🚀 CTA SECTION */}
+        <div className="text-center pb-20">
+          <h3 className="text-2xl font-bold mb-3">
+            Need Safety Solutions for Your Home?
+          </h3>
+          <p className="text-gray-400 mb-6">
+            Get expert consultation and installation from Servani Safety Nets.
+          </p>
+
+          <a
+            href="tel:+917995792953"
+            className="inline-flex items-center px-6 py-3 rounded-full 
+            bg-gradient-to-r from-[#E78946] to-orange-500 
+            font-semibold hover:scale-105 transition"
+          >
+            📞 Call Now
+          </a>
         </div>
       </div>
 

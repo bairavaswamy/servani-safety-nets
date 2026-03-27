@@ -3,9 +3,7 @@ import dynamic from "next/dynamic";
 import {
   cardsData,
   testimonials,
-  desktopSlides,
-  mobileSlides,
-  galleryImages,
+  galleryData,
 } from "./data/homeData";
 
 const HeroSection = dynamic(() => import("./components/HeroSection"));
@@ -15,6 +13,8 @@ const Testimonials = dynamic(() => import("./components/Testimonials"));
 const CTASection = dynamic(() => import("./components/CTASection"));
 const MissionSection = dynamic(() => import("./components/MissionSection"));
 const LocalBusinessSchema = dynamic(() => import("./components/LocalBusinessSchema"));
+
+
 
 export const metadata: Metadata = {
   title: "Best Safety Nets & Invisible Grills in Bengaluru",
@@ -29,14 +29,11 @@ export default function HomePage() {
 
       <main className="min-h-screen bg-gradient-to-br from-secondary to-primary text-white">
 
-        <HeroSection
-          desktopSlides={desktopSlides}
-          mobileSlides={mobileSlides}
-        />
+        <HeroSection title="Balcony Safety Nets" description="Protect your family with our premium safety nets in Bengaluru." image="" />
 
         <SafetySolutions cards={cardsData} />
 
-        <Gallery images={galleryImages} />
+        <Gallery images={galleryData} />
 
         <Testimonials testimonials={testimonials} />
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Phone } from "lucide-react";
+import { BookOpen, Phone, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,6 +10,12 @@ interface SafetyCardProps {
   description: string;
   readMoreLink: string;
   callNumber: string;
+
+  // 🔥 NEW PROPS
+  rating?: number;
+  reviews?: number;
+  badge?: string;
+  tags?: string[];
 }
 
 const SafetyCard = ({
@@ -18,6 +24,10 @@ const SafetyCard = ({
   description,
   readMoreLink,
   callNumber,
+  rating = 4.9,
+  reviews = 120,
+  badge,
+  tags = [],
 }: SafetyCardProps) => {
   return (
     <div
@@ -27,8 +37,9 @@ const SafetyCard = ({
       transition-all duration-500 hover:-translate-y-2 
       hover:shadow-[0_20px_60px_rgba(231,137,70,0.25)]"
     >
-      {/* Glow overlay */}
-      {/* <div className="absolute inset-0 bg-gradient-to-br from-[#E78946]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500" /> */}
+      {/* 🔥 Gradient border glow */}
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 
+        bg-gradient-to-r from-[#E78946]/20 via-transparent to-[#E78946]/20 pointer-events-none" />
 
       {/* Image */}
       <div className="relative h-56 overflow-hidden">
@@ -36,41 +47,76 @@ const SafetyCard = ({
           src={image}
           alt={title}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          className="object-cover transition duration-700 ease-out group-hover:scale-110"
+          className="object-cover transition duration-700 group-hover:scale-110"
         />
 
-        {/* Gradient overlay */}
+        {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+        {/* 🏷️ Servani Badge */}
+        <div className="absolute top-3 left-3 px-3 py-1 rounded-full 
+          bg-black/60 backdrop-blur-md border border-white/10 
+          text-[11px] text-white">
+          Servani
+        </div>
+
+        {/* ⭐ Dynamic Rating */}
+        <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full 
+          bg-black/60 backdrop-blur-md border border-white/10 text-[11px] text-white">
+          
+          <Star size={10} fill="#E78946" stroke="none" />
+          <span className="text-[10px]">{rating}</span>
+          <span className="text-[9px] text-gray-300">({reviews})</span>
+        </div>
+
+        {/* 🔥 Optional Badge */}
+        {badge && (
+          <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full 
+            bg-[#E78946] text-[10px] font-semibold text-white shadow-md">
+            {badge}
+          </div>
+        )}
       </div>
 
       {/* Content */}
-      <div className="p-5 flex flex-col justify-between h-[260px]">
+      <div className="p-5 flex flex-col justify-between h-[270px]">
         
-        {/* Title + Description */}
+        {/* Title */}
         <div>
-          <h2 className="text-lg font-bold text-white tracking-tight">
+          <h2 className="text-lg font-semibold text-white">
             {title}
           </h2>
 
-          <p className="mt-2 text-gray-400 text-sm leading-relaxed line-clamp-4">
+          {/* 🔥 Tags */}
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {tags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="text-[10px] px-2 py-1 rounded-full bg-white/10 text-gray-300"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <p className="mt-2 text-gray-400 text-sm leading-relaxed line-clamp-3">
             {description}
           </p>
         </div>
 
-        {/* CTA Section */}
-        <div className="mt-5 flex items-center justify-between gap-3">
+        {/* CTA */}
+        <div className="mt-4 flex items-center justify-between gap-3">
           
-          {/* Read More */}
           <Link
             href={readMoreLink}
-            className="flex items-center gap-2 text-sm font-medium text-[#E78946] hover:text-orange-300 transition"
+            className="flex items-center gap-1 text-sm text-[#E78946] hover:text-orange-300 transition"
           >
             <BookOpen className="size-4" />
-            Learn More
+            Details
           </Link>
 
-          {/* Call Now (Primary CTA) */}
           <a
             href={callNumber ? `tel:${callNumber}` : "#"}
             className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full 
@@ -79,20 +125,14 @@ const SafetyCard = ({
             shadow-lg hover:shadow-orange-500/50
             hover:scale-105 transition-all duration-300 overflow-hidden"
           >
-            {/* Shine effect */}
-            <span className="absolute inset-0">
-              <span className="absolute w-[200%] h-full bg-gradient-to-r from-transparent via-white/30 to-transparent 
-              -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-            </span>
-
             <Phone className="size-4 relative z-10" />
-            <span className="relative z-10">Call Now</span>
+            <span className="relative z-10">Call</span>
           </a>
         </div>
 
-        {/* Trust hint */}
+        {/* Trust line */}
         <p className="mt-3 text-[11px] text-gray-500">
-          Trusted • Durable • Professional Installation
+          Trusted Installation • Long Lasting • Bangalore Service
         </p>
       </div>
     </div>

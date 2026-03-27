@@ -1,52 +1,142 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import BlogDetailsClient from "./BlogDetailsClient";
+import { blogsData } from "@/app/data/blogsData";
 
-const blogPosts: Record<
-  string,
-  { title: string; date: string; image: string; content: string }
-> = {
-  "importance-of-balcony-safety-nets": {
-    title: "Why Balcony Safety Nets Are Essential for Every Home",
-    date: "October 25, 2025",
-    image: "/images/balcony-safety-net.webp",
-    content: `
-Balcony safety nets are not just an accessory — they’re a necessity for families, especially in high-rise apartments. These nets prevent accidental falls while keeping your open view intact.
+const BASE_URL = "https://servanisafetynets.com";
 
-At Servani Safety Nets, we use durable, UV-resistant materials that last for years without losing strength. Our professional team ensures a neat installation with aesthetic appeal.
-
-Whether you have kids, pets, or just want peace of mind — balcony safety nets are your best investment for home safety.
-    `,
-  },
-  "invisible-grills-modern-home-trend": {
-    title: "Invisible Grills — The Modern Home Safety Trend",
-    date: "September 12, 2025",
-    image: "/images/invisible-grill.webp",
-    content: `
-Invisible grills are the perfect blend of beauty and safety. Made from 316 marine-grade stainless steel, they provide superior protection without blocking your view.
-
-They are rust-proof, durable, and can handle heavy impact — making them ideal for balconies, windows, and facades.
-
-Modern homeowners are choosing invisible grills for their sleek design and minimal maintenance needs.
-    `,
-  },
-  "pigeon-nets-for-clean-balconies": {
-    title: "Keep Your Balcony Clean with Pigeon Nets",
-    date: "August 30, 2025",
-    image: "/images/pigeon-installation.webp",
-    content: `
-Pigeons can create a mess on balconies and open spaces. Pigeon safety nets offer a safe, hygienic solution without harming birds, keeping your home clean and peaceful.
-    `,
-  },
-};
-
-// ✅ Required for static export
+// ✅ STATIC PATHS
 export async function generateStaticParams() {
-  return Object.keys(blogPosts).map((slug) => ({ slug }));
+  return blogsData.map((blog) => ({
+    slug: blog.slug,
+  }));
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
-  const blog = blogPosts[params.slug];
+// ✅ SEO METADATA (FIXED FOR ASYNC PARAMS)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  const blog = blogsData.find((b) => b.slug === slug);
+
+  if (!blog) {
+    return {
+      title: "Blog Not Found | Servani Safety Nets",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const url = `${BASE_URL}/blogs/${slug}`;
+
+  const cleanContent = blog.content
+    .replace(/<[^>]*>/g, "") // remove HTML
+    .replace(/\n/g, " ");
+
+  const title = `${blog.title} | Safety Nets in Bangalore`;
+
+  const description =
+    cleanContent.slice(0, 150) +
+    " Professional safety nets installation in Bangalore.";
+
+  return {
+    title,
+    description,
+
+    keywords: [
+      "safety nets Bangalore",
+      "balcony safety nets Bangalore",
+      "pigeon nets Bangalore",
+      "invisible grills Bangalore",
+      blog.title,
+    ],
+
+    alternates: {
+      canonical: url,
+    },
+
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Servani Safety Nets",
+      images: [
+        {
+          url: blog.image.startsWith("http")
+            ? blog.image
+            : `${BASE_URL}${blog.image}`,
+          width: 1200,
+          height: 630,
+          alt: blog.title,
+        },
+      ],
+      type: "article",
+      locale: "en_IN",
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [
+        blog.image.startsWith("http")
+          ? blog.image
+          : `${BASE_URL}${blog.image}`,
+      ],
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+    },
+
+    metadataBase: new URL(BASE_URL),
+  };
+}
+
+// ✅ PAGE COMPONENT (FIXED 404 ISSUE)
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
+  const blog = blogsData.find((b) => b.slug === slug);
+
   if (!blog) return notFound();
 
-  return <BlogDetailsClient blog={blog} />;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: blog.title,
+    image: blog.image.startsWith("http")
+      ? blog.image
+      : `${BASE_URL}${blog.image}`,
+    author: {
+      "@type": "Organization",
+      name: "Servani Safety Nets",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Servani Safety Nets",
+    },
+    datePublished: blog.date,
+    description: blog.content.replace(/<[^>]*>/g, "").slice(0, 150),
+    mainEntityOfPage: `${BASE_URL}/blogs/${slug}`,
+  };
+
+  return (
+    <>
+      {/* ✅ JSON-LD SCHEMA */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+
+      <BlogDetailsClient blog={blog} />
+    </>
+  );
 }

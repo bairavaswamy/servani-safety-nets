@@ -12,17 +12,18 @@ import {
   Layers3,
   ChevronDown,
   ChevronUp,
+  ShieldCheck,
 } from "lucide-react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
 import { servicesData as originalServices } from "../data/serviceData";
 import { areas } from "../data/areasData";
 
-// Add all areas to each service dynamically
+// Merge areas into services
 const servicesData = Object.fromEntries(
   Object.entries(originalServices).map(([key, service]) => [
     key,
-    { ...service, areas }, // merge areas into each service
+    { ...service, areas },
   ])
 );
 
@@ -74,17 +75,16 @@ const MobileMenu = ({ isOpen, setIsOpen }: any) => {
       <div
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        className={`fixed top-0 left-0 h-full w-[85%] max-w-xs z-40 transform transition-transform duration-300
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-        bg-black/90 backdrop-blur-xl border-r border-white/10 shadow-2xl
-        flex flex-col`}
+        className={`fixed top-0 left-0 h-full w-[85%] max-w-xs z-40 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } bg-black/90 backdrop-blur-xl border-r border-white/10 shadow-2xl flex flex-col`}
       >
         {/* Header */}
         <div className="relative flex flex-col items-center pt-16 pb-5 border-b border-white/10">
           <div className="relative w-14 h-14 mb-2">
             <Image
-              src="/srinulogo.jpg"
-              alt="Servani Logo"
+              src="/servani-logo.webp"
+              alt="Servani Safety Nets"
               fill
               className="object-contain rounded-full border border-white/20"
             />
@@ -98,7 +98,6 @@ const MobileMenu = ({ isOpen, setIsOpen }: any) => {
             Trust • Safety • Quality
           </p>
 
-          {/* Close */}
           <button
             onClick={() => setIsOpen(false)}
             className="absolute top-5 right-4 text-gray-400 hover:text-red-400"
@@ -107,14 +106,15 @@ const MobileMenu = ({ isOpen, setIsOpen }: any) => {
           </button>
         </div>
 
-        {/* Nav Links */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2 pb-24">
+        {/* Nav */}
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2 pb-28">
+          {/* Main Links */}
           {links.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-500 ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
                 isActive(link.href)
                   ? "bg-white/10 text-[#E78946]"
                   : "text-gray-300 hover:bg-white/5 hover:text-white"
@@ -130,45 +130,79 @@ const MobileMenu = ({ isOpen, setIsOpen }: any) => {
             </Link>
           ))}
 
-          {/* Services Button */}
+          {/* Popular Services */}
+          <p className="text-xs text-gray-400 px-4 mt-4 mb-1">
+            Popular Services
+          </p>
+
+          <Link
+            href="/service/balcony-safety-nets"
+            className="block px-4 py-2 text-sm text-gray-300 hover:text-[#E78946]"
+            onClick={() => setIsOpen(false)}
+          >
+            Balcony Safety Nets
+          </Link>
+
+          <Link
+            href="/service/pigeon-safety-nets"
+            className="block px-4 py-2 text-sm text-gray-300 hover:text-[#E78946]"
+            onClick={() => setIsOpen(false)}
+          >
+            Pigeon Safety Nets
+          </Link>
+
+          {/* Services Dropdown */}
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center justify-between w-full px-4 py-3 rounded-lg text-gray-300 hover:bg-white/5"
+            className="flex items-center justify-between w-full px-4 py-3 rounded-lg text-gray-300 hover:bg-white/5 mt-2"
           >
             <div className="flex items-center gap-3">
               <Layers3 size={18} />
-              Services
+              All Services
             </div>
             {isDropdownOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </button>
 
-          {/* Services Dropdown */}
           <div
-            className={`overflow-hidden transition-all duration-300 ${
-              isDropdownOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+            className={`overflow-hidden transition-all duration-500 ${
+              isDropdownOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
             }`}
           >
-            <div className="ml-4 mt-3 space-y-2 border-l border-white/10 pl-3">
+            <div className="ml-4 mt-3 space-y-4 border-l border-white/10 pl-3">
               {Object.entries(servicesData).map(([key, service]) => (
-                <div key={key} className="space-y-1">
+                <div key={key}>
+                  {/* Service Title */}
                   <Link
                     href={`/service/${key}`}
-                    className="block px-3 py-2 text-sm rounded-md text-gray-300 hover:text-[#E78946] hover:bg-white/5 transition font-medium"
+                    className="flex items-center gap-2 px-2 py-2 text-sm text-gray-300 hover:text-[#E78946] font-medium"
                     onClick={() => setIsOpen(false)}
                   >
+                    <ShieldCheck size={14} className="text-[#E78946]" />
                     {service.title}
                   </Link>
 
-                  {/* Available Areas */}
-                  <div className="ml-3 space-x-2 text-xs text-gray-400 flex flex-wrap gap-1">
-                    {service.areas.map((area) => (
-                      <span
+                  {/* Areas (SEO Links) */}
+                  <div className="ml-3 mt-1 flex flex-wrap gap-2">
+                    {service.areas.slice(0, 5).map((area) => (
+                      <Link
                         key={area}
-                        className="px-2 py-1 bg-white/10 rounded-full hover:bg-white/20 transition"
+                        href={`/service/${key}/${area
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`}
+                        className="px-2 py-1 text-xs bg-white/10 rounded-full hover:bg-white/20 transition"
+                        onClick={() => setIsOpen(false)}
                       >
                         {area}
-                      </span>
+                      </Link>
                     ))}
+
+                    <Link
+                      href={`/service/${key}`}
+                      className="text-xs text-[#E78946]"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      View All →
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -176,24 +210,21 @@ const MobileMenu = ({ isOpen, setIsOpen }: any) => {
           </div>
         </div>
 
-        {/* Sticky Bottom CTA */}
+        {/* CTA */}
         <div className="absolute bottom-0 left-0 w-full p-4 bg-black/90 border-t border-white/10 space-y-3">
           <a
             href="tel:7995792953"
-            className="block w-full text-center py-3 rounded-full 
-            bg-gradient-to-r from-[#E78946] to-orange-500 
-            text-white font-semibold shadow-lg"
+            className="block w-full text-center py-3 rounded-full bg-gradient-to-r from-[#E78946] to-orange-500 text-white font-semibold shadow-lg"
           >
-            📞 Call Now
+            📞 Call for Free Inspection
           </a>
 
           <a
             href="https://wa.me/917995792953"
             target="_blank"
-            className="block w-full text-center py-3 rounded-full 
-            bg-green-500 text-white font-semibold shadow-lg"
+            className="block w-full text-center py-3 rounded-full bg-green-500 text-white font-semibold shadow-lg"
           >
-            💬 WhatsApp
+            💬 WhatsApp Now
           </a>
         </div>
       </div>

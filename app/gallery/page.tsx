@@ -9,25 +9,28 @@ import StickyContactIcons from '../stickyicons/stickyIcons';
 type MediaItem = {
   src: string;
   type: 'image' | 'video';
-  alt?: string;
+  alt: string;
 };
 
-// ✅ Automatically generate media items
+// ✅ SEO + CLEAN DATA
 const generateMedia = (
   count: number,
   type: 'image' | 'video',
-  ext: string
+  ext: string,
+  category: string
 ): MediaItem[] =>
   Array.from({ length: count }, (_, i) => ({
-    src: `/gallery/${type}-${i + 1}.${ext}`,
+    src: `/gallery/${category}-${i + 1}.${ext}`,
     type,
-    alt: `${type === 'image' ? 'Image' : 'Video'} ${i + 1}`,
+    alt: `${category.replaceAll('-', ' ')} installation in Bangalore`,
   }));
 
-// Example: 10 images & 3 videos (you can easily increase later)
 const mediaItems: MediaItem[] = [
-  ...generateMedia(45, 'image', 'jpg'),
-  ...generateMedia(5, 'video', 'mp4'),
+  ...generateMedia(15, 'image', 'webp', 'balcony-safety-nets-bangalore'),
+  ...generateMedia(10, 'image', 'webp', 'pigeon-nets-bangalore'),
+  ...generateMedia(10, 'image', 'webp', 'invisible-grills-bangalore'),
+  ...generateMedia(10, 'image', 'webp', 'safety-nets-installation'),
+  ...generateMedia(5, 'video', 'mp4', 'installation'),
 ];
 
 export default function Gallery() {
@@ -42,55 +45,74 @@ export default function Gallery() {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-[#354664] text-white py-20 px-6 mt-16">
-        <div className="max-w-6xl mx-auto text-center">
-          {/* Header */}
-          <h1 className="text-4xl font-extrabold text-[#E78946] mb-4">Our Gallery</h1>
-          <p className="text-amber-100 max-w-2xl mx-auto mb-10">
-            Explore our premium safety installations, invisible grills, and pigeon protection
-            solutions — through photos and videos.
+      <main className="relative min-h-screen py-24 px-6 overflow-hidden">
+
+        {/* 🔥 BACKGROUND (MATCH MISSION SECTION) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-950 to-black" />
+        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#E78946]/10 blur-[120px]" />
+        <div className="absolute bottom-[-150px] right-[-100px] w-[400px] h-[400px] bg-orange-500/10 blur-[120px]" />
+
+        <div className="relative z-10 max-w-7xl mx-auto text-center">
+
+          {/* 🔥 HEADING */}
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight 
+            bg-gradient-to-r from-[#E78946] via-orange-300 to-[#E78946] 
+            bg-clip-text text-transparent">
+            Our Installation Gallery
+          </h1>
+
+          <div className="w-20 h-[2px] mx-auto mb-8 bg-gradient-to-r from-transparent via-[#E78946] to-transparent" />
+
+          <p className="text-gray-300 max-w-2xl mx-auto mb-10 text-lg">
+            Explore real balcony safety nets, pigeon nets, and invisible grill
+            installations across Bangalore homes and apartments.
           </p>
 
-          {/* Tabs */}
-          <div className="flex justify-center gap-4 mb-10">
+          {/* 🔥 TABS */}
+          <div className="flex justify-center gap-4 mb-12">
             <button
               onClick={() => setActiveTab('images')}
-              className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+              className={`px-6 py-2 rounded-full font-semibold transition ${
                 activeTab === 'images'
                   ? 'bg-[#E78946] text-white shadow-lg'
-                  : 'bg-[#E78946]/80 text-white hover:bg-white/20'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
               }`}
             >
               Photos
             </button>
+
             <button
               onClick={() => setActiveTab('videos')}
-              className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+              className={`px-6 py-2 rounded-full font-semibold transition ${
                 activeTab === 'videos'
-                  ? 'bg-[#E78946] text-emerald-950 shadow-lg'
-                  : 'bg-white/10 text-amber-100 hover:bg-white/20'
+                  ? 'bg-[#E78946] text-white shadow-lg'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
               }`}
             >
               Videos
             </button>
           </div>
 
-          {/* Media Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {/* 🔥 GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {filteredItems.map((item, index) => (
               <div
                 key={index}
-                className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 hover:shadow-amber-300/30"
                 onClick={() => setSelectedMedia(item)}
+                className="relative group cursor-pointer rounded-2xl overflow-hidden 
+                bg-white/5 border border-white/10 backdrop-blur-lg
+                hover:scale-105 transition duration-300 shadow-lg hover:shadow-[#E78946]/20"
               >
+                {/* MEDIA */}
                 {item.type === 'image' ? (
                   <Image
                     src={item.src}
-                    alt={item.alt || 'Gallery image'}
+                    alt={item.alt}
                     width={500}
                     height={350}
-                    className="object-cover w-full h-64 transition-transform duration-300 group-hover:scale-110"
-                    loading="lazy"
+                    className="object-cover w-full h-64 group-hover:scale-110 transition duration-500"
+                    sizes="(max-width:768px) 100vw, 33vw"
+                    priority={index < 3}
                   />
                 ) : (
                   <video
@@ -98,27 +120,38 @@ export default function Gallery() {
                     muted
                     loop
                     playsInline
-                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                    className="w-full h-64 object-cover"
                   />
                 )}
+
+                {/* 🔥 OVERLAY */}
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 
+                flex items-center justify-center text-white font-semibold transition">
+                  View Installation
+                </div>
+
+                {/* 🔥 CAPTION */}
+                <p className="text-xs text-gray-400 text-center px-3 py-2">
+                  {item.alt}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Modal Preview */}
+        {/* 🔥 MODAL */}
         {selectedMedia && (
           <div
-            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
             onClick={() => setSelectedMedia(null)}
           >
             <div
-              className="relative max-w-5xl w-full max-h-[80vh] flex items-center justify-center"
+              className="relative max-w-5xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setSelectedMedia(null)}
-                className="absolute top-2 right-2 bg-white/20 hover:bg-white/40 text-white rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold"
+                className="absolute top-2 right-2 bg-white/20 hover:bg-white/40 rounded-full w-10 h-10 text-white text-xl"
               >
                 ×
               </button>
@@ -126,22 +159,23 @@ export default function Gallery() {
               {selectedMedia.type === 'image' ? (
                 <Image
                   src={selectedMedia.src}
-                  alt={selectedMedia.alt || 'Preview'}
+                  alt={selectedMedia.alt}
                   width={1000}
                   height={700}
-                  className="object-contain max-h-[80vh] rounded-lg"
+                  className="object-contain max-h-[80vh] w-full rounded-lg"
                 />
               ) : (
                 <video
                   src={selectedMedia.src}
                   controls
                   autoPlay
-                  className="max-h-[80vh] rounded-lg"
+                  className="max-h-[80vh] w-full rounded-lg"
                 />
               )}
             </div>
           </div>
         )}
+
       </main>
 
       <StickyContactIcons />

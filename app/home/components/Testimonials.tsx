@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Star } from "lucide-react";
 
 type Testimonial = {
   comment: string;
@@ -8,28 +9,36 @@ type Testimonial = {
 };
 
 const TestimonialCard = ({ comment, author }: Testimonial) => (
-  <div className="relative min-w-[320px] max-w-[360px] flex-shrink-0 mx-4 group">
+  <div className="min-w-[300px] max-w-[340px] mx-4 flex-shrink-0 group">
     
-    {/* Glass Card */}
-    <blockquote
-      className="relative h-full rounded-2xl p-6 backdrop-blur-xl 
-      bg-white/5 border border-white/10
-      shadow-[0_10px_40px_rgba(0,0,0,0.4)]
+    <div
+      className="h-full rounded-2xl p-6 
+      bg-gradient-to-b from-white/10 to-white/5 
+      border border-white/10
+      shadow-lg
       transition-all duration-500 
       group-hover:-translate-y-2 
-      group-hover:shadow-[0_20px_60px_rgba(231,137,70,0.25)]"
+      group-hover:shadow-[0_20px_50px_rgba(231,137,70,0.2)]"
     >
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#E78946]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500" />
+      
+      {/* ⭐ Stars */}
+      <div className="flex gap-1 mb-3 text-[#E78946]">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Star key={i} size={16} fill="#E78946" stroke="none" />
+        ))}
+      </div>
 
-      <p className="relative z-10 text-gray-200 italic leading-relaxed">
+      {/* Comment */}
+      <p className="text-gray-300 text-[15px] leading-relaxed line-clamp-5">
         “{comment}”
       </p>
 
-      <footer className="relative z-10 mt-5 text-sm font-semibold text-[#E78946]">
-        — {author}
-      </footer>
-    </blockquote>
+      {/* Author */}
+      <div className="mt-5">
+        <p className="text-sm font-semibold text-white">{author}</p>
+        <p className="text-xs text-gray-400">Verified Customer</p>
+      </div>
+    </div>
   </div>
 );
 
@@ -41,30 +50,64 @@ const Testimonials = ({ testimonials }: { testimonials: Testimonial[] }) => {
       <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-950 to-black" />
 
       {/* Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#E78946]/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-[#E78946]/10 blur-[100px]" />
+
+      {/* ⭐ Rating Badge */}
+      <div className="relative z-10 flex flex-col items-center mb-6">
+        <div className="flex items-center gap-3 px-5 py-2 rounded-full bg-white/10 border border-white/10 backdrop-blur-md shadow-md">
+          
+          {/* Stars */}
+          <div className="flex text-[#E78946]">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} size={16} fill="#E78946" stroke="none" />
+            ))}
+          </div>
+
+          {/* Rating text */}
+          <p className="text-sm text-gray-200 font-medium">
+            4.9 Rating • 500+ Happy Customers
+          </p>
+        </div>
+      </div>
 
       {/* Heading */}
       <h2
-        className="relative z-10 text-4xl md:text-5xl font-extrabold text-center mb-14 
-        bg-gradient-to-r from-[#E78946] via-orange-300 to-[#E78946] 
-        bg-clip-text text-transparent tracking-tight"
+        className="relative z-10 text-3xl md:text-5xl font-bold text-center mb-10 
+        bg-gradient-to-r from-[#E78946] to-orange-300 
+        bg-clip-text text-transparent"
       >
-        Loved by Our Customers
+        Trusted by Families Across Bangalore
       </h2>
+
+      {/* Subheading (NEW - more friendly) */}
+      <p className="relative z-10 text-center text-gray-400 max-w-2xl mx-auto mb-12 text-sm md:text-base">
+        Real experiences from our customers who made their homes safer with 
+        Servani Safety Nets. Quality service, strong materials, and peace of mind.
+      </p>
 
       {/* Marquee */}
       <div className="relative w-full overflow-hidden">
         
-        {/* Edge fade (premium touch) */}
-        <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent z-20" />
-        <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-black to-transparent z-20" />
+        {/* Edge fade */}
+        <div className="absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-black to-transparent z-20" />
+        <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-black to-transparent z-20" />
 
-        <div className="flex w-max animate-marquee">
-          {/* Duplicate for seamless loop */}
+        <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
           {[...testimonials, ...testimonials].map((t, i) => (
             <TestimonialCard key={i} {...t} />
           ))}
         </div>
+      </div>
+
+      {/* CTA (NEW 🔥) */}
+      <div className="relative z-10 mt-14 flex justify-center">
+        <a
+          href="tel:+917995792953"
+          className="px-6 py-3 rounded-full bg-[#E78946] text-white font-semibold 
+          shadow-lg hover:scale-105 transition duration-300"
+        >
+          Get Free Installation Quote
+        </a>
       </div>
     </section>
   );

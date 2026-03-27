@@ -8,68 +8,113 @@ const TermsAndConditions = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-br from-emerald-950 via-teal-900 to-emerald-800 text-amber-50 py-16 px-5 md:px-16">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-10 bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-200 bg-clip-text text-transparent">
-          Terms and Conditions
-        </h1>
 
-        <div className="max-w-5xl mx-auto space-y-8 leading-relaxed">
-          <p>
-            Welcome to <strong>Servani Safety Nets</strong>. By accessing or using our website, 
-            you agree to comply with the following terms and conditions. Please read them carefully.
+      <div className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black text-gray-300">
+
+        {/* 🔥 HERO SECTION */}
+        <div className="relative py-20 px-6 text-center overflow-hidden">
+
+          {/* Glow */}
+          <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[400px] bg-[#E78946]/20 blur-[120px]" />
+
+          <h1 className="relative z-10 text-4xl md:text-6xl font-extrabold mb-6 tracking-tight
+            bg-gradient-to-r from-[#E78946] via-orange-300 to-[#E78946] 
+            bg-clip-text text-transparent">
+            Terms & Conditions
+          </h1>
+
+          <p className="relative z-10 text-gray-400 max-w-2xl mx-auto">
+            Please read these terms carefully before using our services.  
+            Your trust and transparency are important to{" "}
+            <span className="text-[#E78946] font-semibold">
+              Servani Safety Nets
+            </span>.
           </p>
+        </div>
 
-          <h2 className="text-2xl font-semibold text-amber-300">1. Services</h2>
-          <p>
-            We provide installation and maintenance of pigeon nets, balcony nets, invisible grills, 
-            and related safety net products. All installations are carried out by trained professionals.
-          </p>
+        {/* 📄 CONTENT */}
+        <div className="max-w-5xl mx-auto px-6 pb-20 space-y-8">
 
-          <h2 className="text-2xl font-semibold text-amber-300">2. Pricing and Payment</h2>
-          <p>
-            Prices displayed are approximate and may vary based on location, size, and materials. 
-            Final quotations are provided after on-site inspection or confirmed customer request.
-          </p>
+          {/* CARD */}
+          {[
+            {
+              title: "1. Services",
+              content:
+                "We provide installation and maintenance of balcony safety nets, pigeon nets, invisible grills, and related safety solutions. All services are handled by trained professionals.",
+            },
+            {
+              title: "2. Pricing & Payment",
+              content:
+                "Prices may vary based on size, material, and installation area. Final pricing will be confirmed after inspection or discussion.",
+            },
+            {
+              title: "3. Installation & Scheduling",
+              content:
+                "We aim for timely service, but delays may occur due to weather or site conditions. Customers must provide proper access for installation.",
+            },
+            {
+              title: "4. Warranty",
+              content:
+                "Our products typically come with 3–7 years warranty depending on material. Damages due to misuse or external factors are not covered.",
+            },
+            {
+              title: "5. Website Content",
+              content:
+                "All content including text, images, and branding belongs to Servani Safety Nets and cannot be reused without permission.",
+            },
+            {
+              title: "6. Liability",
+              content:
+                "We are not responsible for indirect damages, delays, or external issues beyond our control.",
+            },
+            {
+              title: "7. Updates",
+              content:
+                "We may update these terms anytime. Continued use of our services means acceptance of updated terms.",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10
+              shadow-lg hover:shadow-[0_10px_40px_rgba(231,137,70,0.2)]
+              transition duration-300"
+            >
+              <h2 className="text-xl font-semibold text-[#E78946] mb-2">
+                {item.title}
+              </h2>
+              <p className="text-gray-400 leading-relaxed">
+                {item.content}
+              </p>
+            </div>
+          ))}
 
-          <h2 className="text-2xl font-semibold text-amber-300">3. Appointments and Installation</h2>
-          <p>
-            Customers can schedule installation through our contact number or website form. 
-            We aim to deliver services promptly but are not responsible for delays caused by external factors like weather or access restrictions.
-          </p>
+          {/* 📞 CONTACT CARD */}
+          <div className="p-6 rounded-2xl bg-gradient-to-r from-[#E78946]/10 to-orange-500/10 border border-[#E78946]/20 text-center">
+            <h3 className="text-lg font-semibold text-white mb-2">
+              Need Help?
+            </h3>
+            <p className="text-gray-400 mb-4">
+              If you have any questions about our terms, feel free to contact us.
+            </p>
 
-          <h2 className="text-2xl font-semibold text-amber-300">4. Warranty and Guarantee</h2>
-          <p>
-            Our products come with a warranty depending on the material (typically 3–7 years). 
-            Damage caused by misuse, external tampering, or natural disasters is not covered.
-          </p>
+            <a
+              href="tel:+917995792953"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full 
+              bg-gradient-to-r from-[#E78946] to-orange-500 
+              text-white font-semibold
+              shadow-lg hover:scale-105 transition"
+            >
+              📞 Call Now
+            </a>
+          </div>
 
-          <h2 className="text-2xl font-semibold text-amber-300">5. Intellectual Property</h2>
-          <p>
-            All website content, including text, images, graphics, and logos, is owned by Servani Safety Nets 
-            and protected under copyright laws. Reuse without permission is prohibited.
-          </p>
-
-          <h2 className="text-2xl font-semibold text-amber-300">6. Limitation of Liability</h2>
-          <p>
-            Servani Safety Nets is not liable for indirect or incidental damages resulting from 
-            service use, website errors, or delayed installations.
-          </p>
-
-          <h2 className="text-2xl font-semibold text-amber-300">7. Updates to Terms</h2>
-          <p>
-            We may modify these Terms and Conditions at any time without prior notice. 
-            The updated version will be posted on this page.
-          </p>
-
-          <h2 className="text-2xl font-semibold text-amber-300">8. Contact</h2>
-          <p>
-            For any concerns about our terms, please reach out at{" "}
-            <a href="mailto:servanienterprise@gmail.com" className="text-amber-300 underline">
-              servanienterprise@gmail.com
-            </a>.
+          {/* 🔒 TRUST LINE */}
+          <p className="text-center text-xs text-gray-500">
+            Transparent policies • Trusted service • Customer-first approach
           </p>
         </div>
       </div>
+
       <StickyContactIcons />
       <Footer />
     </>

@@ -22,7 +22,7 @@ export const servicesData: Record<string, Service> = {
       Suitable for apartments and offices  
       Installed by trained professionals  
     `,
-    image: "/images/pigeon-net.webp",
+    image: "/cards/pigeon-safety-nets-in-bangalore.webp",
     category: "Bird & Pigeon Nets",
   },
 
@@ -40,7 +40,7 @@ export const servicesData: Record<string, Service> = {
       Custom sizes available  
       Economical and long lasting  
     `,
-    image: "/images/anti-bird.webp",
+    image: "/solutions/anti-bird-nets.webp",
     category: "Bird & Pigeon Nets",
   },
 
@@ -58,7 +58,7 @@ export const servicesData: Record<string, Service> = {
       Fits any balcony structure  
       Professional installation support  
     `,
-    image: "/images/balcony-net.webp",
+    image: "/solutions/bird-nets-for-balconies.webp",
     category: "Bird & Pigeon Nets",
   },
 
@@ -335,7 +335,7 @@ export const servicesData: Record<string, Service> = {
       Weather resistant  
       Easy to maintain  
     `,
-    image: "/images/coconut-tree-safety-nets.webp",
+    image: "/solutions/coconut-tree-safety-nets.webp",
     category: "Special Purpose Nets",
   },
 
