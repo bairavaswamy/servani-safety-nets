@@ -7,6 +7,7 @@ import DetailedContent from "./components/DetailedContent";
 import BenefitApplications from "./components/BenefitApplications";
 import FAQSection from "./components/FAQSection";
 import { Metadata } from "next";
+import Script from "next/script";
 
 type Params = {
   params: { id: string };
@@ -22,31 +23,33 @@ export const generateMetadata = async ({ params }: Params): Promise<Metadata> =>
   const { id } = await params;
   const service = servicesData[id as keyof typeof servicesData];
 
-  const title =
-    `${service?.title || "Safety Nets"} in Bangalore | Servani Safety Nets`;
+  if (!service) {
+    return {
+      title: "Service Not Found | Servani Safety Nets",
+      description: "Service not found.",
+      robots: { index: false, follow: false },
+    };
+  }
 
-  const description =
-    service?.description?.trim() ||
-    `Get professional ${service?.title || "safety net"} installation in Bangalore. Servani Safety Nets offers durable, child-safe, and pet-friendly solutions.`;
-
-  const image = service?.image || "/images/slider_1.webp";
+   const cleanName = service.title;
   const url = `https://servanisafetynets.com/service/${id}`;
+  const image = service.image || "/images/slider_1.webp";
 
-  // 🔥 Better SEO Keywords (location + intent)
-  const keywords = [
-    `${service?.title} in Bangalore`,
-    "balcony safety nets Bangalore",
-    "pigeon safety nets Bangalore",
-    "invisible grills Bangalore",
-    "child safety nets",
-    "pet safety nets",
-    "Servani Safety Nets",
-  ];
+  const title = `${cleanName} in Bangalore | Best Price & Installation`;
+  const description = `Looking for ${cleanName.toLowerCase()} in Bangalore? Servani Safety Nets offers durable, child-safe, and pet-friendly solutions with expert installation. Call now for a free quote!`;
 
   return {
     title,
     description,
-    keywords,
+    keywords: [
+      `${cleanName} Bangalore`,
+      `${cleanName} near me`,
+      `${cleanName} price Bangalore`,
+      "Safety Nets Bangalore",
+      "Balcony Safety Nets Bangalore",
+      "Pigeon Nets Bangalore",
+      "Servani Safety Nets",
+    ],
     alternates: { canonical: url },
 
     openGraph: {
@@ -59,10 +62,10 @@ export const generateMetadata = async ({ params }: Params): Promise<Metadata> =>
           url: image,
           width: 1200,
           height: 630,
-          alt: service?.title || "Servani Safety Nets Services",
+          alt: cleanName,
         },
       ],
-      type: "article",
+      type: "website",
       locale: "en_IN",
     },
 
@@ -73,9 +76,15 @@ export const generateMetadata = async ({ params }: Params): Promise<Metadata> =>
       images: [image],
     },
 
-    robots: {
+     robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
 
     metadataBase: new URL("https://servanisafetynets.com"),
@@ -101,9 +110,120 @@ const SolutionDetails = async({ params }: Params) => {
     );
   }
 
+    const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `https://servanisafetynets.com/service/${id}#service`,
+      name: service.title,
+      description: service.description,
+      serviceType: service.title,
+      provider: {
+        "@type": "HomeAndConstructionBusiness",
+        name: "Servani Safety Nets",
+        url: "https://servanisafetynets.com",
+        telephone: "+91-7995792953",
+      },
+      areaServed: {
+        "@type": "City",
+        name: "Bangalore",
+      },
+    },
+
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://servanisafetynets.com/#business",
+      name: "Servani Safety Nets",
+      url: "https://servanisafetynets.com",
+      telephone: "+91-7995792953",
+
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Bangalore",
+        addressRegion: "Karnataka",
+        addressCountry: "IN",
+      },
+
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 13.144899046337086,
+        longitude: 77.68418210468273,
+      },
+
+      sameAs: [
+        "https://g.page/r/CagMjrUK8tRuEBM",
+        "https://www.instagram.com/servanisafetynets/",
+        "https://www.facebook.com/p/Servani-Enterprise-61576734022219/",
+      ],
+    },
+
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: `What is ${service.title}?`,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: service.description,
+          },
+        },
+        {
+          "@type": "Question",
+          name: `Do you provide ${service.title} in Bangalore?`,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: `Yes, Servani Safety Nets provides ${service.title.toLowerCase()} installation across Bangalore.`,
+          },
+        },
+        {
+          "@type": "Question",
+          name: `Is it safe for children and pets?`,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: `Yes, our safety nets are designed for maximum protection and durability.`,
+          },
+        },
+      ],
+    },
+
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://servanisafetynets.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Services",
+          item: "https://servanisafetynets.com/service",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: service.title,
+          item: `https://servanisafetynets.com/service/${id}`,
+        },
+      ],
+    },
+  ],
+};
+
   return (
     <>
+    
       <Navbar />
+      <main>
+        <Script
+        id="solution-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
 
       <TopSection {...service} />
 
@@ -118,7 +238,7 @@ const SolutionDetails = async({ params }: Params) => {
       <FAQSection />
 
       <StickyContactIcons />
-
+      </main>
       <Footer />
     </>
   );

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { areas } from "@/app/data/areasData";
 import { servicesData } from "@/app/data/serviceData";
+import Script from "next/script";
 
 import Navbar from "@/app/navbar/Navbar";
 import Footer from "@/app/footer/Footer";
@@ -9,10 +10,17 @@ import DetailedDescription from "@/app/components/DetailedDescription";
 import InfoSection from "@/app/components/InfoSection";
 import FAQSection from "@/app/components/FAQSection";
 import StickyContactIcons from "@/app/stickyicons/stickyIcons";
+import MapSection from "@/app/components/MapSection";
+import Solution from "@/app/components/Solution";
+import PriceSection from "@/app/components/PriceSection";
+import NearbyAreasSection from "@/app/components/NearbyAreasSection";
 
 type Params = {
-  params: { area: string; service: string };
+  params: Promise<{ area: string; service: string }>;
 };
+
+
+const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 
 // ✅ Content Variations (Uniqueness Engine)
 const introVariants = [
@@ -54,7 +62,7 @@ ${closing.replace(/{service}/g, service).replace(/{area}/g, area)}
 export const generateStaticParams = () => {
   return areas.flatMap((area) =>
     Object.keys(servicesData).map((service) => ({
-      area,
+      area: slugify(area),
       service,
     }))
   );
@@ -62,7 +70,7 @@ export const generateStaticParams = () => {
 
 // ✅ SEO Metadata (Improved)
 export const generateMetadata = async ({ params }: Params): Promise<Metadata> => {
-  const { area, service } = await params;
+  const { area, service } =await params;
   const serviceData = servicesData[service as keyof typeof servicesData];
 
   if (!serviceData) {
@@ -72,31 +80,145 @@ export const generateMetadata = async ({ params }: Params): Promise<Metadata> =>
   }
 
   const areaName = area.replace(/-/g, " ");
+  const url = `https://servanisafetynets.com/bangalore/${area}/${service}`;
+  const title = `${serviceData.title} in ${areaName} Bangalore | Servani Safety Nets`;
+
+  const description = `Looking for ${serviceData.title.toLowerCase()} in ${areaName}, Bangalore? Servani Safety Nets provides expert installation with affordable pricing and durable materials. Call now for a free quote.`;
 
   return {
-    title: `${serviceData.title} in ${areaName} Bangalore | Servani Safety Nets`,
-    description: `Looking for ${serviceData.title.toLowerCase()} in ${areaName}, Bangalore? Servani Safety Nets offers professional installation, affordable pricing, and long-lasting protection. Book your service today.`,
+    title,
+    description,
+    keywords: [
+      `${serviceData.title} in ${areaName}`,
+      `${serviceData.title} Bangalore`,
+      `${serviceData.title} near me`,
+      "Safety Nets Bangalore",
+      "Servani Safety Nets",
+    ],
     alternates: {
-      canonical: `https://servanisafetynets.com/bangalore/${area}/${service}`,
+      canonical: url,
     },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Servani Safety Nets",
+      images: [
+        {
+          url: serviceData.image,
+          width: 1200,
+          height: 630,
+          alt: `${serviceData.title} in ${areaName}`,
+        },
+      ],
+      locale: "en_IN",
+      type: "website",
+    },
+      twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [serviceData.image],
+    },
+
   };
 };
+
+
 
 // ✅ Page Component
 const AreaServicePage = async ({ params }: Params) => {
   const { area, service } = await params;
   const serviceData = servicesData[service as keyof typeof servicesData];
 
-  if (!serviceData) return <div>Not Found</div>;
+  if (!serviceData) return <div>Service "{service}" Not Found</div>;
 
   const areaName = area.replace(/-/g, " ");
   const serviceName = serviceData.title;
 
   const dynamicDescription = generateDescription(serviceName, areaName);
 
+  const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `https://servanisafetynets.com/bangalore/${area}/${service}#service`,
+      name: `${serviceName} in ${areaName}`,
+      description: dynamicDescription,
+      provider: {
+        "@type": "HomeAndConstructionBusiness",
+        name: "Servani Safety Nets",
+        url: "https://servanisafetynets.com",
+        telephone: "+91-7995792953",
+      },
+      areaServed: {
+        "@type": "Place",
+        name: areaName,
+      },
+      serviceType: serviceName,
+    },
+
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://servanisafetynets.com/#business",
+      name: "Servani Safety Nets",
+      url: "https://servanisafetynets.com",
+      telephone: "+91-7995792953",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Bangalore",
+        addressRegion: "Karnataka",
+        addressCountry: "IN",
+      },
+      sameAs: [
+        "https://g.page/r/CagMjrUK8tRuEBM",
+        "https://www.instagram.com/servanisafetynets/",
+        "https://www.facebook.com/p/Servani-Enterprise-61576734022219/",
+      ],
+    },
+
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: `Do you provide ${serviceName} in ${areaName}?`,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: `Yes, Servani Safety Nets offers ${serviceName.toLowerCase()} services in ${areaName}, Bangalore.`,
+          },
+        },
+        {
+          "@type": "Question",
+          name: `What is the cost of ${serviceName} in ${areaName}?`,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: `Pricing depends on size and requirements. Contact us for a free quote.`,
+          },
+        },
+        {
+          "@type": "Question",
+          name: `Is it safe for children and pets?`,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: `Yes, our safety nets are designed for maximum safety and durability.`,
+          },
+        },
+      ],
+    },
+  ],
+};
+
   return (
     <>
       <Navbar />
+<main>
+      <Script
+        id="area-service-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
 
       {/* 🔥 Hero (Improved SEO + Conversion) */}
       <HeroSection
@@ -111,6 +233,12 @@ const AreaServicePage = async ({ params }: Params) => {
         description={dynamicDescription}
       />
 
+      <Solution serviceName={serviceName} areaName={areaName} image={serviceData.image} />
+
+      <PriceSection serviceName={serviceName} areaName={areaName} />
+
+      <NearbyAreasSection serviceName={serviceName} areaName={areaName} />
+
       {/* 🔥 Info Section (Trust + Keywords) */}
       <InfoSection
         title={`Why Choose ${serviceName} in ${areaName}?`}
@@ -118,6 +246,9 @@ const AreaServicePage = async ({ params }: Params) => {
         image={serviceData.image}
       />
 
+
+      <MapSection area={areaName} />
+      
       {/* 🔥 FAQ (Expanded for SEO) */}
       <FAQSection
         faqs={[
@@ -143,7 +274,7 @@ const AreaServicePage = async ({ params }: Params) => {
           },
         ]}
       />
-
+</main>
       <StickyContactIcons />
       <Footer />
     </>

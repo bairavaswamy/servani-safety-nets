@@ -51,11 +51,7 @@ const TopSection = ({ title, description, image }: TopSectionProps) => {
           backdrop-blur-md bg-white/5 p-8 rounded-2xl shadow-xl border border-white/10">
             
             <p className="mb-4">
-              At{" "}
-              <span className="text-[#E78946] font-semibold">
-                Servani Safety Nets
-              </span>
-              , {description}
+            {description}
             </p>
 
             {/* Highlight line */}

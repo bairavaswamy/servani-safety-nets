@@ -43,12 +43,12 @@ const Logo = () => {
           bg-gradient-to-r from-[#E78946] to-orange-300 
           bg-clip-text text-transparent"
         >
-          Servani
+          Servani Safety Nets
         </span>
 
         {/* Sub Brand */}
         <span className="text-xs sm:text-sm text-gray-300 tracking-wide">
-          Safety Nets
+          High-Rise Safety Experts
         </span>
       </div>
     </Link>

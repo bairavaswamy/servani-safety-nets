@@ -62,10 +62,10 @@ export default function Gallery({ images }: { images: GalleryItem[] }) {
       </div>
 
       {/* Scroll Buttons */}
-      <button onClick={() => scroll("left")} className="absolute left-4 top-1/2 z-30">
+      <button onClick={() => scroll("left")} className="absolute left-4 top-1/2 z-30" aria-label="Previous slide">
         <FaChevronLeft />
       </button>
-      <button onClick={() => scroll("right")} className="absolute right-4 top-1/2 z-30">
+      <button onClick={() => scroll("right")} className="absolute right-4 top-1/2 z-30" aria-label="Next slide">
         <FaChevronRight />
       </button>
 

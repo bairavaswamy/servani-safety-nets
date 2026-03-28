@@ -49,6 +49,7 @@ const HeroSection = ({ title, description }: HeroProps) => {
       <img
         src={slides[current].image}
         alt="hero"
+        fetchPriority="high"
         className="absolute w-full h-full object-cover transition-all duration-1000"
       />
 

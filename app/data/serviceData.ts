@@ -22,7 +22,7 @@ export const servicesData = {
   "invisible-nets": {
     title: "Invisible Safety Nets",
     description: "Transparent and strong invisible nets for safety without blocking the view.",
-    image: "/cards/invisible-nets-in-bangalore.webp",
+    image: "/cards/invisible-safety-nets-in-bangalore.webp",
   },
   "invisible-grills": {
     title: "Invisible Grills",
@@ -47,7 +47,7 @@ export const servicesData = {
   "sports-nets": {
     title: "Sports Nets",
     description: "High-quality sports nets for cricket, football, and other outdoor games.",
-    image: "/cards/sports-nets-in-bangalore.webp",
+    image: "/cards/sports-safety-nets-in-bangalore.webp",
   },
   "monkey-safety-nets": {
     title: "Monkey Safety Nets",
@@ -62,16 +62,16 @@ export const servicesData = {
   "staircase-safety-nets": {
     title: "Staircase Safety Nets",
     description: "Ensure staircase safety with protective net solutions.",
-    image: "/cards/staircase-nets-in-bangalore.webp",
+    image: "/cards/staircase-safety-nets-in-bangalore.webp",
   },
   "building-covering-nets": {
     title: "Building Covering Safety Nets",
     description: "Complete building covering nets for construction and safety purposes.",
-    image: "/cards/building-nets-in-bangalore.webp",
+    image: "/cards/building-covering-safety-net-in-bangalore.webp",
   },
   "cloth-hangers": {
     title: "Cloth Hangers",
     description: "Durable cloth hanger solutions for balconies and utility areas.",
-    image: "/cards/cloth-hangers-in-bangalore.webp",
+    image: "/cards/cloth-hanger-in-bangalore.webp",
   },
 };

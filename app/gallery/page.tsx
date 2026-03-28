@@ -26,10 +26,10 @@ const generateMedia = (
   }));
 
 const mediaItems: MediaItem[] = [
-  ...generateMedia(15, 'image', 'webp', 'balcony-safety-nets-bangalore'),
-  ...generateMedia(10, 'image', 'webp', 'pigeon-nets-bangalore'),
-  ...generateMedia(10, 'image', 'webp', 'invisible-grills-bangalore'),
-  ...generateMedia(10, 'image', 'webp', 'safety-nets-installation'),
+  ...generateMedia(9, 'image', 'webp', 'balcony-safety-nets-bangalore'),
+  ...generateMedia(9, 'image', 'webp', 'transparent-safety-nets-bangalore'),
+  ...generateMedia(21, 'image', 'webp', 'invisible-grills-bangalore'),
+  ...generateMedia(7, 'image', 'webp', 'hdpe-nets-bangalore'),
   ...generateMedia(5, 'video', 'mp4', 'installation'),
 ];
 

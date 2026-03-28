@@ -2,139 +2,151 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { areas } from '@/app/data/areasData';
+import { servicesData } from '@/app/data/serviceData';
+
+// Slugify function
+const slugify = (text: string) =>
+  text.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/--+/g, '-');
 
 const links = [
-  { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/contactUs', label: 'Contact' },
 ];
 
-const serviceLinks = [
-  { href: '/services/balcony', text: 'Balcony Safety Nets' },
-  { href: '/services/invisible', text: 'Invisible Grills' },
-  { href: '/services/spikes', text: 'Bird Spikes' },
-  { href: '/services/residential', text: 'Residential Safety Nets' },
-  { href: '/services/sports', text: 'Sports Safety Nets' },
-  { href: '/services/construction', text: 'Construction Safety Nets' },
-];
-
 export default function DesktopMenu() {
   const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [hoverTimer, setHoverTimer] = useState<NodeJS.Timeout | null>(null);
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
 
-  const isActive = (path: string) => pathname === path;
-
-  const handleMouseEnter = () => {
-    if (hoverTimer) clearTimeout(hoverTimer);
-    setIsDropdownOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    const timer = setTimeout(() => setIsDropdownOpen(false), 120);
-    setHoverTimer(timer);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (hoverTimer) clearTimeout(hoverTimer);
-    };
-  }, [hoverTimer]);
+  const servicesArray = Object.entries(servicesData).map(([key, value]) => ({
+    key,
+    title: value.title,
+  }));
 
   return (
     <ul className="hidden md:flex items-center gap-8 font-medium text-gray-300 relative">
-      
-      {/* Main Links */}
+      {/* Home first */}
+      <li className="relative group">
+        <Link
+          href="/"
+          className={`relative py-1 transition duration-300 ${
+            pathname === '/' ? 'text-white' : 'hover:text-white'
+          }`}
+        >
+          Home
+          <span
+            className={`absolute left-0 -bottom-1 h-[2px] bg-[#E78946] transition-all duration-300 ${
+              pathname === '/' ? 'w-full' : 'w-0 group-hover:w-full'
+            }`}
+          />
+        </Link>
+      </li>
+
+      {/* SERVICES Dropdown after Home */}
+      <li
+        className="relative group"
+        onMouseEnter={() => setIsDropdownOpen(true)}
+        onMouseLeave={() => {
+          setIsDropdownOpen(false);
+          setHoveredService(null);
+        }}
+      >
+        <button
+          className={`relative py-1 transition duration-300 ${
+            pathname.startsWith('/bangalore') ? 'text-white' : 'text-gray-300'
+          } group`}
+        >
+          Services
+          <span
+            className={`absolute left-0 -bottom-1 h-[2px] bg-[#E78946] transition-all duration-300 ${
+              isDropdownOpen || pathname.startsWith('/bangalore') ? 'w-full' : 'w-0 group-hover:w-full'
+            }`}
+          />
+        </button>
+
+        {/* Dropdowns container */}
+        {isDropdownOpen && (
+          <div className="absolute top-full left-0 mt-2 flex gap-2 z-50">
+            {/* First Dropdown: Services */}
+            {/* First Dropdown: Services */}
+<div className="w-60 max-h-[500px] overflow-y-auto scrollbar-hide bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-lg p-2">
+  {servicesArray.map((service) => {
+    const isActiveService = hoveredService === service.key;
+    return (
+      <div
+        key={service.key}
+        onMouseEnter={() => setHoveredService(service.key)}
+        className={`px-4 py-2 text-sm cursor-pointer transition-colors duration-300 ${
+          isActiveService ? 'text-orange-500 font-semibold' : 'text-white hover:text-orange-500'
+        }`}
+      >
+        {service.title}
+      </div>
+    );
+  })}
+</div>
+            {/* Second Dropdown: Areas */}
+            {hoveredService && (
+              <div className="w-80 max-h-[500px] overflow-y-auto scrollbar-hide bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-lg p-2">
+                <ul>
+                  {areas.map((area) => (
+                    <li key={`${hoveredService}-${area}`}>
+                      <Link
+                        href={`/bangalore/${slugify(area)}/${hoveredService}`}
+                        className="block px-6 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5"
+                      >
+                        {servicesData[hoveredService as keyof typeof servicesData].title} in {area.replace(/-/g, ' ')}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </li>
+
+      {/* Other links */}
       {links.map((link) => (
         <li key={link.href} className="relative group">
           <Link
             href={link.href}
             className={`relative py-1 transition duration-300 ${
-              isActive(link.href)
-                ? 'text-white'
-                : 'hover:text-white'
+              pathname === link.href ? 'text-white' : 'hover:text-white'
             }`}
           >
             {link.label}
-
-            {/* Underline animation */}
             <span
               className={`absolute left-0 -bottom-1 h-[2px] bg-[#E78946] transition-all duration-300 ${
-                isActive(link.href)
-                  ? 'w-full'
-                  : 'w-0 group-hover:w-full'
+                pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
               }`}
             />
           </Link>
         </li>
       ))}
 
-      {/* SERVICES */}
-      <li
-        className="relative group"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <button
-          className={`relative py-1 transition duration-300 ${
-            pathname.startsWith('/services')
-              ? 'text-white'
-              : 'hover:text-white'
-          }`}
-        >
-          Services
-
-          <span
-            className={`absolute left-0 -bottom-1 h-[2px] bg-[#E78946] transition-all duration-300 ${
-              pathname.startsWith('/services')
-                ? 'w-full'
-                : 'w-0 group-hover:w-full'
-            }`}
-          />
-        </button>
-
-        {/* Dropdown */}
-        <div
-          className={`absolute left-1/2 -translate-x-1/2 mt-4 w-72 
-          transition-all duration-300 z-50
-          ${isDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-3 invisible'}`}
-        >
-          <div className="rounded-2xl overflow-hidden 
-            bg-black/80 backdrop-blur-xl border border-white/10
-            shadow-[0_20px_60px_rgba(0,0,0,0.6)] p-2"
-          >
-            {serviceLinks.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`block px-4 py-3 rounded-lg text-sm transition-all duration-300 ${
-                  pathname === item.href
-                    ? 'bg-white/10 text-[#E78946]'
-                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                {item.text}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </li>
-
-      {/* CTA Button (HIGH CONVERSION) */}
+      {/* CTA Button */}
       <li>
         <a
           href="tel:7995792953"
-          className="ml-4 px-5 py-2 rounded-full 
-          bg-gradient-to-r from-[#E78946] to-orange-500 
-          text-white text-sm font-semibold
-          shadow-lg hover:shadow-orange-500/40
-          hover:scale-105 transition-all duration-300"
+          className="ml-4 px-5 py-2 rounded-full bg-gradient-to-r from-[#E78946] to-orange-500 text-white text-sm font-semibold shadow-lg hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300"
         >
           Call Now
         </a>
       </li>
+
+      {/* Hide scrollbars */}
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          scrollbar-width: none;
+        }
+      `}</style>
     </ul>
   );
 }
